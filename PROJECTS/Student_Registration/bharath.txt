@@ -1,0 +1,2 @@
+This is example file to check
+if the fstream working or not
