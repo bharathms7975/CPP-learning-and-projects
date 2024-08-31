@@ -4,9 +4,8 @@ using namespace std;
 
 class BigInt
 {
-    string digits;
-
 public:
+    string digits;
     // constructor
     BigInt(unsigned long long n = 0); // done
     BigInt(string &);                 // done
@@ -22,7 +21,7 @@ public:
     // operator Overloading //
 
     // Direct assignment
-    BigInt &operator=(const BigInt &);
+    BigInt &operator=(const BigInt &); // done
 
     // Post/pre - Incrementation
 
@@ -38,13 +37,13 @@ public:
     friend BigInt operator-(const BigInt &, const BigInt &);
 
     // Comparision operators
-    friend bool operator==(const BigInt &, const BigInt &);
-    friend bool operator!=(const BigInt &, const BigInt &);
+    friend bool operator==(const BigInt &, const BigInt &); // done
+    friend bool operator!=(const BigInt &, const BigInt &); // done
 
-    friend bool operator>(const BigInt &, const BigInt &);
-    friend bool operator>=(const BigInt &, const BigInt &);
-    friend bool operator<(const BigInt &, const BigInt &);
-    friend bool operator<=(const BigInt &, const BigInt &);
+    friend bool operator>(const BigInt &, const BigInt &);  // done
+    friend bool operator>=(const BigInt &, const BigInt &); // done
+    friend bool operator<(const BigInt &, const BigInt &);  // done
+    friend bool operator<=(const BigInt &, const BigInt &); // done
 
     // Multiplication and Division
     friend BigInt &operator*=(BigInt &, const BigInt &);
@@ -174,4 +173,87 @@ BigInt &BigInt::operator=(const BigInt &a)
 {
     digits = a.digits;
     return *this;
+}
+
+BigInt &BigInt::operator++()
+{
+    int i, n = digits.size();
+    for (i = 0; i < n && digits[i] == 9; i++)
+        digits[i] = 0;
+    if (i == n)
+        digits.push_back(1);
+    else
+        digits[i]++;
+    return *this;
+}
+
+BigInt BigInt::operator++(int temp)
+{
+    BigInt aux;
+    aux = *this;
+    ++(*this);
+    return aux;
+}
+
+BigInt &BigInt::operator--()
+{
+    if (digits[0] == 0 && digits.size() == 1)
+        throw("UNDERFLOW");
+    int i, n = digits.size();
+    for (i = 0; digits[i] == 0 && i < n; i++)
+        digits[i] = 9;
+    digits[i]--;
+    if (n > 1 && digits[n - 1] == 0)
+        digits.pop_back();
+    return *this;
+}
+
+BigInt BigInt::operator--(int temp)
+{
+    BigInt aux;
+    aux = *this;
+    --(*this);
+    return aux;
+}
+
+BigInt &operator+=(BigInt &a, const BigInt &b)
+{
+    int t = 0, s, i;
+    int n = Length(a), m = Length(b);
+    if (m > n)
+        a.digits.append(m - n, 0);
+    n = Length(a);
+    for (i = 0; i < n; i++)
+    {
+        if (i < m)
+            s = (a.digits[i] + b.digits[i] + t);
+        else
+            s = a.digits[i] + t;
+        t = s / 10;
+        a.digits[i] = (s % 10);
+    }
+    if (t)
+        a.digits.push_back(t);
+    return a;
+}
+
+// function to print i.e overloading operator <<
+ostream &operator<<(ostream &out, const BigInt &a)
+{
+    for (int i = a.digits.size() - 1; i >= 0; i--)
+        cout << (short)a.digits[i];
+
+    return cout;
+}
+
+int main()
+{
+    string b, c;
+    cin >> b;
+    cin >> c;
+    BigInt a(b);
+
+    a += c;
+
+    cout << a << endl;
 }
