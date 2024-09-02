@@ -237,6 +237,77 @@ BigInt &operator+=(BigInt &a, const BigInt &b)
     return a;
 }
 
+BigInt operator+(const BigInt &a, const BigInt &b)
+{
+    BigInt temp;
+    temp = a;
+    temp += b;
+    return temp;
+}
+
+BigInt &operator-=(BigInt &a, const BigInt &b)
+{
+    if (a < b)
+        // since we are not processing negative numbers
+        throw("UNDERFLOW");
+    int n = Length(a), m = Length(b);
+    int i, t = 0, s;
+    for (i = 0; i < n; i++)
+    {
+        if (i < m)
+            s = a.digits[i] - b.digits[i] + t;
+        else
+            s = a.digits[i] + t;
+        if (s < 0)
+            s += 10,
+                t = -1;
+        else
+            t = 0;
+        a.digits[i] = s;
+    }
+    while (n > 1 && a.digits[n - 1] == 0)
+        a.digits.pop_back(),
+            n--;
+    return a;
+}
+
+BigInt operator-(const BigInt &a, const BigInt &b)
+{
+    BigInt temp;
+    temp = a;
+    temp -= b;
+
+    return temp;
+}
+
+BigInt &operator*=(BigInt &a, const BigInt &b)
+{
+    if (Null(a) || Null(b))
+    {
+        a = BigInt();
+        return a;
+    }
+    int n = a.digits.size(), m = b.digits.size();
+    vector<int> v(n + m, 0);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            v[i + j] += (a.digits[i]) * (b.digits[j]);
+        }
+    n += m;
+    a.digits.resize(v.size());
+    for (int s, i = 0, t = 0; i < n; i++)
+    {
+        s = t + v[i];
+        v[i] = s % 10;
+        t = s / 10;
+        a.digits[i] = v[i];
+    }
+    for (int i = n - 1; i >= 1 && !v[i]; i--)
+        a.digits.pop_back();
+    return a;
+}
+
 // function to print i.e overloading operator <<
 ostream &operator<<(ostream &out, const BigInt &a)
 {
@@ -248,12 +319,11 @@ ostream &operator<<(ostream &out, const BigInt &a)
 
 int main()
 {
-    string b, c;
-    cin >> b;
-    cin >> c;
-    BigInt a(b);
+    string lhs, rhs;
 
-    a += c;
+    cin >> lhs >> rhs;
 
+    BigInt a(lhs), b(rhs), c;
+    a *= b;
     cout << a << endl;
 }
