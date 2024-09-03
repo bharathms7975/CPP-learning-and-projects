@@ -308,6 +308,139 @@ BigInt &operator*=(BigInt &a, const BigInt &b)
     return a;
 }
 
+BigInt operator*(const BigInt &a, const BigInt &b)
+{
+    BigInt temp;
+    temp = a;
+    temp *= b;
+
+    return temp;
+}
+
+BigInt &operator/=(BigInt &a, const BigInt &b)
+{
+    if (Null(b))
+        throw("Arithmetic Error: Division by 0");
+    if (a < b)
+    {
+        a = BigInt();
+        return a;
+    }
+    if (a == b)
+    {
+        a = BigInt(1);
+        return a;
+    }
+    int i, lgcat = 0, cc;
+    int n = Length(a), m = Length(b);
+    vector<int> cat(n, 0);
+    BigInt t;
+    for (i = n - 1; t * 10 + a.digits[i] < b; i++)
+    {
+        t *= 10;
+        t += a.digits[i];
+    }
+    for (; i >= 0; i--)
+    {
+        t = t * 10 + a.digits[i];
+        for (cc = 9; cc * b > t; cc--)
+            ;
+        t -= cc * b;
+        cat[lgcat++] = cc;
+    }
+
+    a.digits.resize(cat.size());
+    for (i = 0; i < lgcat; i++)
+        a.digits[i] = cat[lgcat - i - 1];
+    a.digits.resize(lgcat);
+    return a;
+}
+
+BigInt operator/(const BigInt &a, const BigInt &b)
+{
+    BigInt temp;
+    temp = a;
+    temp /= b;
+    return temp;
+}
+
+BigInt &operator%=(BigInt &a, const BigInt &b)
+{
+    if (Null(b))
+        throw("arithmetic Error: Division By 0");
+    if (a < b)
+    {
+        return a;
+    }
+    if (a == b)
+    {
+        a = BigInt();
+        return a;
+    }
+    int i, lgcat = 0, cc;
+    int n = Length(a), m = Length(b);
+    vector<int> cat(n, 0);
+    BigInt t;
+    for (i = n - 1; t * 10 + a.digits[i] < b; i--)
+    {
+        t *= 10;
+        t += a.digits[i];
+    }
+    for (; i >= 0; i++)
+    {
+        t = t * 10 + a.digits[i];
+        for (cc = 9; cc * b > t; cc--)
+            ;
+        t -= cc * b;
+        cat[lgcat++] = cc;
+    }
+    a = t;
+    return a;
+}
+
+BigInt operator%(const BigInt &a, const BigInt &b)
+{
+    BigInt temp;
+    temp = a;
+    temp %= b;
+    return temp;
+}
+
+BigInt &operator^=(BigInt &a, const BigInt &b)
+{
+    BigInt Exponent, Base(a);
+    Exponent = b;
+    a = 1;
+    while (!Null(Exponent))
+    {
+        if (Exponent[0] & 1)
+            a *= Base;
+        Base *= Base;
+        divide_by_2(Exponent);
+    }
+    return a;
+}
+
+BigInt operator^(BigInt &a, BigInt &b)
+{
+    BigInt temp(a);
+    temp ^= b;
+    return temp;
+}
+
+void divide_by_2(BigInt &a)
+{
+    int add = 0;
+    for (int i = a.digits.size() - 1; i >= 0; i--)
+    {
+        int digit = (a.digits[i] >> 1) + add;
+        add = ((a.digits[i] & 1) * 5);
+        a.digits[i] = digit;
+    }
+    while (a.digits.size() > 1 && !a.digits.back())
+        a.digits.pop_back();
+}
+
 // function to print i.e overloading operator <<
 ostream &operator<<(ostream &out, const BigInt &a)
 {
@@ -324,6 +457,6 @@ int main()
     cin >> lhs >> rhs;
 
     BigInt a(lhs), b(rhs), c;
-    a *= b;
+    a ^= b;
     cout << a << endl;
 }
