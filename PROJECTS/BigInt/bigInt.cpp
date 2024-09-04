@@ -441,6 +441,69 @@ void divide_by_2(BigInt &a)
         a.digits.pop_back();
 }
 
+BigInt sqrt(BigInt &a)
+{
+    BigInt left(1), right(a), v(1), mid, prod;
+    divide_by_2(right);
+    while (left <= right)
+    {
+        mid = left;
+        mid += right;
+        divide_by_2(mid);
+        prod = (mid * mid);
+        if (prod <= a)
+        {
+            v = mid;
+            ++mid;
+            left = mid;
+        }
+        else
+        {
+            --mid;
+            right = mid;
+        }
+        mid = BigInt();
+    }
+    return v;
+}
+
+BigInt NthCatalan(int n)
+{
+    BigInt a(1), b;
+    for (int i = 2; i <= n; i++)
+        a *= i;
+    b = a;
+    for (int i = n + 1; i <= 2 * n; i++)
+        b *= i;
+    a *= a; // n!^2
+    a *= (n + 1);
+    b /= a;
+    return b;
+}
+
+BigInt NthFibonacci(int n)
+{
+    BigInt prev(1), curr(1), next;
+    if (!n)
+        return next;
+    n--;
+    while (n--)
+    {
+        next = prev + next;
+        prev = curr;
+        curr = next;
+    }
+    return curr;
+}
+
+BigInt Factorial(int n)
+{
+    BigInt f(1);
+    for (int i = 2; i <= n; i++)
+        f *= i;
+    return f;
+}
+
 // function to print i.e overloading operator <<
 ostream &operator<<(ostream &out, const BigInt &a)
 {
@@ -457,6 +520,6 @@ int main()
     cin >> lhs >> rhs;
 
     BigInt a(lhs), b(rhs), c;
-    a ^= b;
-    cout << a << endl;
+    c = sqrt(a);
+    cout << c << endl;
 }
