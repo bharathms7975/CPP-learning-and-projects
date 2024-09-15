@@ -504,6 +504,20 @@ BigInt Factorial(int n)
     return f;
 }
 
+istream &operator>>(istream &in, BigInt &a)
+{
+    string s;
+    in >> s;
+    int n = s.size();
+    for (int i = n - 1; i >= 0; i--)
+    {
+        if (!isdigit(s[i]))
+            throw("INVALID NUMBER");
+        a.digits[n - i - 1] = s[i];
+    }
+    return in;
+}
+
 // function to print i.e overloading operator <<
 ostream &operator<<(ostream &out, const BigInt &a)
 {
@@ -515,11 +529,77 @@ ostream &operator<<(ostream &out, const BigInt &a)
 
 int main()
 {
-    string lhs, rhs;
+    BigInt first("12345");
+    cout << "The number of digits"
+         << " in first big integer = "
+         << Length(first) << '\n';
+    BigInt second(12345);
+    if (first == second)
+    {
+        cout << "first and second are equal!\n";
+    }
+    else
+        cout << "Not equal!\n";
+    BigInt third("10000");
+    BigInt fourth("100000");
+    if (third < fourth)
+    {
+        cout << "third is smaller than fourth!\n";
+    }
+    BigInt fifth("10000000");
+    if (fifth > fourth)
+    {
+        cout << "fifth is larger than fourth!\n";
+    }
 
-    cin >> lhs >> rhs;
+    // Printing all the numbers
+    cout << "first = " << first << '\n';
+    cout << "second = " << second << '\n';
+    cout << "third = " << third << '\n';
+    cout << "fourth = " << fourth << '\n';
+    cout << "fifth = " << fifth << '\n';
 
-    BigInt a(lhs), b(rhs), c;
-    c = sqrt(a);
-    cout << c << endl;
+    // Incrementing the value of first
+    first++;
+    cout << "After incrementing the"
+         << " value of first is : ";
+    cout << first << '\n';
+    BigInt sum;
+    sum = (fourth + fifth);
+    cout << "Sum of fourth and fifth = "
+         << sum << '\n';
+    BigInt product;
+    product = second * third;
+    cout << "Product of second and third = "
+         << product << '\n';
+
+    // Print the fibonacci number from 1 to 100
+    cout << "-------------------------Fibonacci"
+         << "------------------------------\n";
+    for (int i = 0; i <= 100; i++)
+    {
+        BigInt Fib;
+        Fib = NthFibonacci(i);
+        cout << "Fibonacci " << i << " = " << Fib << '\n';
+    }
+    cout << "-------------------------Catalan"
+         << "------------------------------\n";
+    for (int i = 0; i <= 100; i++)
+    {
+        BigInt Cat;
+        Cat = NthCatalan(i);
+        cout << "Catalan " << i << " = " << Cat << '\n';
+    }
+
+    // Calculating factorial of from 1 to 100
+    cout << "-------------------------Factorial"
+         << "------------------------------\n";
+    for (int i = 0; i <= 100; i++)
+    {
+        BigInt fact;
+        fact = Factorial(i);
+        cout << "Factorial of "
+             << i << " = ";
+        cout << fact << '\n';
+    }
 }
