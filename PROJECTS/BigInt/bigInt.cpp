@@ -335,7 +335,7 @@ BigInt &operator/=(BigInt &a, const BigInt &b)
     int n = Length(a), m = Length(b);
     vector<int> cat(n, 0);
     BigInt t;
-    for (i = n - 1; t * 10 + a.digits[i] < b; i++)
+    for (i = n - 1; t * 10 + a.digits[i] < b; i--)
     {
         t *= 10;
         t += a.digits[i];
@@ -584,7 +584,7 @@ int main()
     }
     cout << "-------------------------Catalan"
          << "------------------------------\n";
-    for (int i = 0; i <= 100; i++)
+    for (int i = 1; i <= 100; i++)
     {
         BigInt Cat;
         Cat = NthCatalan(i);
