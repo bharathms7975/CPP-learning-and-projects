@@ -129,7 +129,7 @@ int main()
             break;
         }
 
-        cout << "Press Enter to continue...";
+        cout << " Press Enter to continue...";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cin.get();
     }
