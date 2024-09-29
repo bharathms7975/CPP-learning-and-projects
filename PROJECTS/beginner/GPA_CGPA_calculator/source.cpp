@@ -139,6 +139,6 @@ float inputValidation(const string &prompt)
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
-    // cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return input;
 }
