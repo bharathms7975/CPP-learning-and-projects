@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "g++", // Use g++ for compiling
+      "args": [
+        "-IC:/libraries/mysql-connector-c++-9.0.0-winx64/include", // Change to your include path
+        "-LC:/libraries/mysql-connector-c++-9.0.0-winx64/lib64", // Change to your lib path
+        "-lmysql", // Link the MySQL library
+        "${file}", // Compile the current file
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe" // Output executable
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

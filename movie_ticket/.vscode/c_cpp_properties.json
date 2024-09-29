@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "name": "Win32",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "C:/libraries/mysql-connector-c++-9.0.0-winx64/include" // Change to your include path
+      ],
+      "defines": [],
+      "compilerPath": "C:/MinGW/bin/g++.exe", // Change to your compiler path
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "gcc-x64"
+    }
+  ],
+  "version": 6
+}
