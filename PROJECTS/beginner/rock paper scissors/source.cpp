@@ -40,8 +40,6 @@ void printHeader(const string &title)
 
 char getComputerOption()
 {
-    srand(time(0));
-    // Random number
     int num = rand() % 3 + 1;
 
     if (num == 1)
@@ -76,7 +74,7 @@ void choosewinner(char uChoice)
     }
     else if (uChoice == ROCK && cChoice == SCISSORS)
     {
-        cout << "You Win! Paper wraps Rock." << endl;
+        cout << "You Win! Rock smashes Scissors." << endl;
     }
     else if (uChoice == PAPER && cChoice == ROCK)
     {
@@ -94,6 +92,7 @@ void choosewinner(char uChoice)
 
 int main()
 {
+    srand(time(0));
     clearScreen();
     printHeader("Rock Paper Scissors");
 
@@ -106,7 +105,7 @@ int main()
         cout << "(p) for Paper\n";
         cout << "(s) for Scissors\n";
         cout << "(e) for Exit\n";
-        cout << "\nEnter yout Choice: ";
+        cout << "\nEnter your Choice: ";
 
         char choice = static_cast<char>(inputValidation(""));
 
